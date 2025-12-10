@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Carga Masiva";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">📂 Importación Masiva de Empleados</h3>
+        </div>
+        <div class="card-body">
+            
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">
+                    <i class="bi bi-exclamation-triangle-fill"></i> @ViewBag.Error
+                </div>
+            }
+
+            <p class="text-muted">
+                Seleccione el archivo Excel (.xlsx) con la nómina actualizada. 
+                El sistema actualizará los empleados existentes y creará los nuevos.
+            </p>
+
+            <!-- Agregamos el ID y el onsubmit -->
+            <form id="formCarga" asp-action="ProcesarExcel" method="post" enctype="multipart/form-data" onsubmit="mostrarCarga()">
+                
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Archivo Excel</label>
+                    <input type="file" name="archivoExcel" class="form-control form-control-lg" accept=".xlsx" required />
+                </div>
+
+                <!-- SECCIÓN DE BOTONES -->
+                <div id="seccionBotones">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        🚀 Procesar Archivo
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Cancelar</a>
+                </div>
+
+                <!-- SECCIÓN DE CARGA (Oculta por defecto) -->
+                <div id="seccionCarga" style="display:none;" class="text-center mt-3">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <h4 class="mt-2 text-primary">Procesando datos, por favor espere...</h4>
+                    <small class="text-muted">Esto puede tardar unos segundos dependiendo del tamaño del archivo.</small>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT SIMPLE PARA EFECTO VISUAL -->
+<script>
+    function mostrarCarga() {
+        // 1. Ocultar los botones para evitar doble clic
+        document.getElementById('seccionBotones').style.display = 'none';
+        
+        // 2. Mostrar la animación de carga
+        document.getElementById('seccionCarga').style.display = 'block';
+        
+        // El formulario se enviará naturalmente después de esto
+    }
+</script>

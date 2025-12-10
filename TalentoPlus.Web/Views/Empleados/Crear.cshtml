@@ -1,0 +1,108 @@
+@using TalentoPlus.Core.Entities
+@model TalentoPlus.Core.Entities.Empleado
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3>Registrar Nuevo Empleado</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Crear" method="post">
+                <div class="row">
+                    <!-- Fila 1 -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Documento *</label>
+                        <input asp-for="Documento" class="form-control" placeholder="Ej: 10203040" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nombres *</label>
+                        <input asp-for="Nombres" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Apellidos *</label>
+                        <input asp-for="Apellidos" class="form-control" required />
+                    </div>
+
+                    <!-- Fila 2 -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email Corporativo *</label>
+                        <input asp-for="Email" type="email" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Teléfono *</label>
+                        <input asp-for="Telefono" class="form-control" required />
+                    </div>
+
+                    <!-- Fila 3 -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Dirección de Residencia *</label>
+                        <input asp-for="Direccion" class="form-control" required />
+                    </div>
+
+                    <!-- Fila 4: Listas Desplegables -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Departamento *</label>
+                        <select asp-for="Departamento" class="form-select" required>
+                            <option value="">-- Seleccione --</option>
+                            @foreach (var dep in ViewBag.Departamentos)
+                            {
+                            <option value="@dep">@dep</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cargo *</label>
+                        <select asp-for="Cargo" class="form-select" required>
+                            <option value="">-- Seleccione --</option>
+                            @foreach (var cargo in ViewBag.Cargos)
+                            {
+                            <option value="@cargo">@cargo</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Fila 5 -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Salario *</label>
+                        <input asp-for="Salario" type="number" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Fecha de Ingreso *</label>
+                        <input asp-for="FechaIngreso" type="date" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Fecha de Nacimiento *</label>
+                        <input asp-for="FechaNacimiento" type="date" class="form-control" required />
+                    </div>
+
+                    <!-- Fila 6 -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nivel Educativo *</label>
+                        <select asp-for="NivelEducativo" class="form-select" required>
+                            <option value="">-- Seleccione --</option>
+                            @foreach (var nivel in ViewBag.NivelesEducativos)
+                            {
+                            <option value="@nivel">@nivel</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Estado Actual</label>
+                        <select asp-for="Estado" class="form-select" asp-items="Html.GetEnumSelectList<EstadoEmpleado>()"></select>
+                    </div>
+
+                    <!-- Fila 7 -->
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Perfil Profesional (Resumen) *</label>
+                        <textarea asp-for="PerfilProfesional" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-success">💾 Guardar Empleado</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

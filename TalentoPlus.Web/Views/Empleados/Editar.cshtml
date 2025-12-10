@@ -1,0 +1,94 @@
+@using TalentoPlus.Core.Entities
+@model TalentoPlus.Core.Entities.Empleado
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+            <h3>Editar Empleado: @Model.Nombres @Model.Apellidos</h3>
+        </div>
+        <div class="card-body">
+            <form asp-action="Editar" method="post">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Documento" /> <!-- Documento no se edita por seguridad -->
+
+                <div class="row">
+                    <!-- Datos Básicos -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Nombres</label>
+                        <input asp-for="Nombres" class="form-control" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Apellidos</label>
+                        <input asp-for="Apellidos" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" required />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Teléfono</label>
+                        <input asp-for="Telefono" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input asp-for="Direccion" class="form-control" required />
+                    </div>
+
+                    <!-- Listas -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Departamento</label>
+                        <select asp-for="Departamento" class="form-select" required>
+                            @foreach (var dep in ViewBag.Departamentos)
+                            {
+                            <!option value="@dep" @(Model.Departamento == dep ? "selected" : "")>@dep</!option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Cargo</label>
+                        <select asp-for="Cargo" class="form-select" required>
+                            @foreach (var cargo in ViewBag.Cargos)
+                            {
+                            <!option value="@cargo" @(Model.Cargo == cargo ? "selected" : "")>@cargo</!option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Datos Laborales -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Salario</label>
+                        <input asp-for="Salario" type="number" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Estado</label>
+                        <select asp-for="Estado" class="form-select" asp-items="Html.GetEnumSelectList<EstadoEmpleado>()"></select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Nivel Educativo</label>
+                        <select asp-for="NivelEducativo" class="form-select" required>
+                            @foreach (var nivel in ViewBag.NivelesEducativos)
+                            {
+                            <!option value="@nivel" @(Model.NivelEducativo == nivel ? "selected" : "")>@nivel</!option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Perfil Profesional</label>
+                        <textarea asp-for="PerfilProfesional" class="form-control" rows="3" required></textarea>
+                    </div>
+
+                    <!-- Fechas ocultas para que no se pierdan si no las editamos -->
+                    <input type="hidden" asp-for="FechaIngreso" />
+                    <input type="hidden" asp-for="FechaNacimiento" />
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-warning">✏️ Actualizar Datos</button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

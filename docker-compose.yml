@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos (Postgres)
+  db:
+    image: postgres:latest
+    container_name: talentoplus_db_diego
+    environment:
+      - POSTGRES_USER=envyguard_user
+      - POSTGRES_PASSWORD=jE15QhCwINzUNUw1FdclOB8YqZOE89
+      - POSTGRES_DB=TalentoPlusDB-Diego
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Aplicación Web
+  web:
+    build:
+      context: .
+      dockerfile: TalentoPlus.Web/Dockerfile
+    container_name: talentoplus_web_diego
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      # Conexión a la BD usando el nombre del servicio 'db' en vez de localhost
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=TalentoPlusDB-Diego;Username=envyguard_user;Password=jE15QhCwINzUNUw1FdclOB8YqZOE89
+      # !!! CAMBIA ESTO POR TU KEY REAL !!!
+      - GoogleApiKey=AIzaSyDgBomTdeve1zOgy6gLr9RhiTPEP_oXThA
+
+  # 3. API REST
+  api:
+    build:
+      context: .
+      dockerfile: TalentoPlus.API/Dockerfile
+    container_name: talentoplus_api
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_HTTP_PORTS=8081
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=TalentoPlusDB-Diego;Username=envyguard_user;Password=jE15QhCwINzUNUw1FdclOB8YqZOE89
+      - Jwt__Key=EstaEsUnaClaveSuperSecretaYLoSuficientementeLargaParaQueFuncione2025!
+      # !!! CAMBIA ESTO POR TUS DATOS DE CORREO !!!
+      - EmailSettings__SmtpServer=smtp.gmail.com
+      - EmailSettings__Port=587
+      - EmailSettings__SenderEmail=diego.zuluagaye@amigo.edu.co
+      - EmailSettings__SenderPassword=siyi dojn fzgq dfia
+
+volumes:
+  postgres_data:

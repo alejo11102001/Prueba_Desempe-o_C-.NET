@@ -1,0 +1,57 @@
+@model TalentoPlus.Web.Models.DashboardViewModel
+
+<div class="container mt-4">
+    <h2 class="mb-4">Panel de Control - RRHH</h2>
+
+    <!-- Tarjetas de Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Total Empleados</div>
+                <div class="card-body">
+                    <h1 class="card-title text-center">@Model.TotalEmpleados</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Empleados Activos</div>
+                <div class="card-body">
+                    <h1 class="card-title text-center">@Model.EmpleadosActivos</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">En Vacaciones</div>
+                <div class="card-body">
+                    <h1 class="card-title text-center">@Model.EmpleadosEnVacaciones</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Inteligencia Artificial -->
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+            🤖 Asistente Virtual (IA)
+        </div>
+        <div class="card-body">
+            <p>Pregunta cosas como: <em>"¿Cuántos empleados hay en Logística?"</em> o <em>"¿Cuántos están inactivos?"</em></p>
+            
+            <form asp-action="ConsultarIA" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" name="pregunta" class="form-control" placeholder="Escribe tu pregunta aquí..." required>
+                    <button class="btn btn-dark" type="submit">Consultar</button>
+                </div>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.RespuestaIA))
+            {
+                <div class="alert alert-info mt-3">
+                    <strong>Respuesta:</strong> @Model.RespuestaIA
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+@model IEnumerable<TalentoPlus.Core.Entities.Empleado>
+
+<h2>Gestión de Empleados</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<div class="mb-3">
+    <a asp-action="Crear" class="btn btn-success">➕ Crear Nuevo Empleado</a> <!-- NUEVO -->
+    <a asp-action="CargaMasiva" class="btn btn-primary">📂 Cargar Excel Masivo</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>Documento</th>
+        <th>Nombre Completo</th>
+        <th>Cargo</th>
+        <th>Departamento</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Documento</td>
+            <td>@item.Nombres @item.Apellidos</td>
+            <td>@item.Cargo</td>
+            <td>@item.Departamento</td>
+            <td>@item.Estado</td>
+            <td>
+                <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning" title="Editar">✏️</a>
+                <!-- Botón PDF -->
+                <a asp-action="DescargarHojaVida" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Descargar PDF">
+                    📄 PDF
+                </a>
+
+                <!-- Botón Eliminar (Con confirmación simple de JS) -->
+                <form asp-action="Eliminar" asp-route-id="@item.Id" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar a @item.Nombres?');">
+                    <button type="submit" class="btn btn-sm btn-warning">🗑</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
